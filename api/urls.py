@@ -1,36 +1,6 @@
 from django.urls import path
-from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-
-from .views import (
-    ProgramListCreateView,
-    ClientListView,
-    ClientCreateView,
-    ClientDetailView,
-    EnrollmentCreateView,
-    client_search,
-)
-
-schema_view = get_schema_view(
-    openapi.Info(
-        title="Health information System API",
-        default_version='v1',
-        description="API for managing clients and health programs",
-        ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
+from .views import api  # Import the NinjaAPI instance
 
 urlpatterns = [
-    path('programs/', ProgramListCreateView.as_view(), name='program-list'),
-    path('clients/', ClientListView.as_view(), name='client-list'),
-    path('clients/create/', ClientCreateView.as_view(), name='client-create'),
-    path('clients/<int:id>/', ClientDetailView.as_view(), name='client-detail'),
-    path('clients/search/', client_search, name='client-search'),
-    path('enrollments/', EnrollmentCreateView.as_view(), name='enrollment-create'),
-
-    # Swagger/OpenAPI URLs
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path("", api.urls),  # All endpoints are auto-registered
 ]

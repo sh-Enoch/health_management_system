@@ -1,53 +1,63 @@
-from rest_framework import serializers
-from ..core.models import Program, Client, Enrollment
+from ninja import ModelSchema, Schema
+from typing import List, Optional
+from core.models import Program, Client, Enrollment
+from datetime import date, datetime
 
+# --- Program Schemas ---
+class ProgramCreate(Schema):
+    name: str
+    description: Optional[str] = None
 
-class ProgramSerializer(serializers.ModelSerializer):
-    class Meta:
+class ProgramOut(ModelSchema):
+    class Config:
         model = Program
-        fields = ['id', 'name', 'description', 'created_at', 'updated_at']
+        model_fields = ['id', 'name', 'description', 'created_at', 'updated_at']
 
+# --- Client Schemas ---
+class ClientCreate(Schema):
+    first_name: str
+    last_name: str
+    date_of_birth: date
+    gender: str
+    phone_number: Optional[str] = None
 
-# --- Client Serializers ---
-
-class ClientCreateSerializer(serializers.ModelSerializer):
-    class Meta:
+class ClientOut(ModelSchema):
+    class Config:
         model = Client
-        fields = ['first_name', 'last_name', 'date_of_birth', 'gender', 'phone_number']
+        model_fields = ['id', 'first_name', 'last_name', 'date_of_birth', 
+                       'gender', 'phone_number', 'created_at', 'updated_at']
 
-class ClientSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Client
-        fields = ['id', 'first_name', 'last_name', 'date_of_birth', 'gender', 'phone_number', 'created_at', 'updated_at']
-
-class EnrollmentBriefSerializer(serializers.ModelSerializer):
-    """Used for nested enrollments inside ClientDetail"""
-    program = serializers.StringRelatedField()
-
-    class Meta:
+# --- Enrollment Schemas ---
+class EnrollmentBriefOut(ModelSchema):
+    program_name: str = None  # Will be populated in custom resolver
+    
+    class Config:
         model = Enrollment
-        fields = ['id', 'program', 'enrollment_date', 'active']
+        model_fields = ['id', 'enrollment_date', 'active']
+        
+    def resolve_program_name(self, obj):
+        return obj.program.name if obj.program else None
 
+class ClientDetailOut(ClientOut):
+    enrollments: List[EnrollmentBriefOut] = []
+    
+    def resolve_enrollments(self, obj):
+        return obj.enrollments.all()
 
-class ClientDetailSerializer(serializers.ModelSerializer):
-    enrollments = EnrollmentBriefSerializer(many=True, read_only=True)
+class EnrollmentCreate(Schema):
+    client_id: int
+    program_id: int
 
-    class Meta:
-        model = Client
-        fields = ['id', 'first_name', 'last_name', 'date_of_birth', 'gender', 'phone_number', 'enrollments', 'created_at', 'updated_at']
-
-
-# --- Enrollment Serializers ---
-
-class EnrollmentCreateSerializer(serializers.ModelSerializer):
-    class Meta:
+class EnrollmentOut(ModelSchema):
+    client_name: str = None
+    program_name: str = None
+    
+    class Config:
         model = Enrollment
-        fields = ['client', 'program']
-
-class EnrollmentSerializer(serializers.ModelSerializer):
-    client = serializers.StringRelatedField()
-    program = serializers.StringRelatedField()
-
-    class Meta:
-        model = Enrollment
-        fields = ['id', 'client', 'program', 'enrollment_date', 'active', 'created_at', 'updated_at']
+        model_fields = ['id', 'enrollment_date', 'active', 'created_at', 'updated_at']
+    
+    def resolve_client_name(self, obj):
+        return f"{obj.client.first_name} {obj.client.last_name}" if obj.client else None
+        
+    def resolve_program_name(self, obj):
+        return obj.program.name if obj.program else None

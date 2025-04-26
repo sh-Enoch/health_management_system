@@ -25,7 +25,7 @@ class Client(models.Model):
     first_name =models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     date_of_birth = models.DateField()
-    gender = models.CharField(max_length=1, Choices=GENDER_CHOICES)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     phone_number = models.IntegerField(validators=[MinLengthValidator(10)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
