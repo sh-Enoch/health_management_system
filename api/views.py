@@ -5,6 +5,7 @@ from core.models import Program, Client, Enrollment
 
 api = NinjaAPI(
     version='1.0.0',
+    docs_url="/docs/",
     title='Health Information System API',
     description='API for managing clients and health programs'
 )
