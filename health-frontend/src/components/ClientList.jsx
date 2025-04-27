@@ -26,17 +26,15 @@ function ClientList() {
           <thead>
             <tr>
               <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left">Name</th>
-              <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left">Email</th>
-              <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left">Phone</th>
+              <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left">Gender</th>
               <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
             {clients.map(client => (
               <tr key={client.id}>
-                <td className="py-2 px-4 border-b border-gray-200">{client.name}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{client.email}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{client.phone}</td>
+                <td className="py-2 px-4 border-b border-gray-200">{client.first_name} {client.last_name}</td>
+                <td className="py-2 px-4 border-b border-gray-200">{client.gender}</td>
                 <td className="py-2 px-4 border-b border-gray-200">
                   <Link 
                     to={`/profile/${client.id}`} 

@@ -6,7 +6,6 @@ function RegisterClient({ onSuccess }) {
     name: '',
     email: '',
     phone: '',
-    address: '',
     date_of_birth: '',  // Matching Django model field
   });
 
@@ -62,16 +61,6 @@ function RegisterClient({ onSuccess }) {
             onChange={handleChange}
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Address</label>
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
         <div>

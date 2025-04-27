@@ -29,20 +29,20 @@ function ClientProfile() {
   return (
     <div className="p-4">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-2">{client.name}'s Profile</h1>
+        <h1 className="text-2xl font-bold mb-2">{client.first_name} {client.last_name}'s Profile</h1>
         <div className="bg-white shadow rounded-lg p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <p className="text-sm text-gray-500">Email</p>
-              <p>{client.email}</p>
+              <p className="text-sm text-gray-500">Date of Birth</p>
+              <p>{client.date_of_birth}</p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Phone</p>
               <p>{client.phone}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Date of Birth</p>
-              <p>{client.date_of_birth || 'N/A'}</p>
+              <p className="text-sm text-gray-500">Gender</p>
+              <p>{client.gender}</p>
             </div>
           </div>
         </div>
