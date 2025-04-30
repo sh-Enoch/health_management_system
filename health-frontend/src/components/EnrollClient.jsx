@@ -6,7 +6,7 @@ function EnrollClient({ onSuccess }) {
   const [programs, setPrograms] = useState([]);
   const [formData, setFormData] = useState({
     client: '',
-    program: '',
+    program: "",
     enrollment_date: new Date().toISOString().split('T')[0], // Default to today
   });
 
@@ -36,8 +36,8 @@ function EnrollClient({ onSuccess }) {
     e.preventDefault();
     try {
       const response = await api.post('enrollments/', {
-        client: formData.client,
-        program: formData.program,
+        client: formData.client.id,
+        program: formData.program.id,
         enrollment_date: formData.enrollment_date,
       });
       alert('Client enrolled successfully!');
@@ -64,7 +64,7 @@ function EnrollClient({ onSuccess }) {
             <option value="">Select a client</option>
             {clients.map(client => (
               <option key={client.id} value={client.id}>
-                {client.name}
+                {client.first_name} {client.last_name}
               </option>
             ))}
           </select>

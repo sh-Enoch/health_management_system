@@ -38,8 +38,6 @@ class ClientEnrollment(Schema):
 class ClientDetail(ClientOut):
     enrollments: List[ClientEnrollment] = []
     
-    def resolve_enrollments(self, obj):
-        return obj.enrollments.select_related('program').all()
 
 class EnrollmentIn(Schema):
     client_id: int

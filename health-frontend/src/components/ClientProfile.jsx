@@ -38,11 +38,15 @@ function ClientProfile() {
             </div>
             <div>
               <p className="text-sm text-gray-500">Phone</p>
-              <p>{client.phone}</p>
+              <p>{client.Phone}</p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Gender</p>
               <p>{client.gender}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Date of enrollment</p>
+              <p>{client.created_at}</p>
             </div>
           </div>
         </div>

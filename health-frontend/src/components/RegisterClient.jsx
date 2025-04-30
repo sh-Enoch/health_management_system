@@ -3,8 +3,9 @@ import api from '../api/api';
 
 function RegisterClient({ onSuccess }) {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    first_name: '',
+    last_name: '',
+    gender: '',
     phone: '',
     date_of_birth: '',  // Matching Django model field
   });
@@ -31,33 +32,41 @@ function RegisterClient({ onSuccess }) {
       <h1 className="text-2xl font-bold mb-4">Register New Client</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Name</label>
+          <label className="block text-sm font-medium text-gray-700">first_name</label>
           <input
             type="text"
-            name="name"
-            value={formData.name}
+            name="first_name"
+            value={formData.first_name}
             onChange={handleChange}
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <label className="block text-sm font-medium text-gray-700">last_name</label>
           <input
-            type="email"
-            name="email"
-            value={formData.email}
+            type="text"
+            name="last_name"
+            value={formData.last_name}
             onChange={handleChange}
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Phone</label>
+         <select >
+          <option value=""> Select Gender</option>
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+          <option value="O">Other</option>
+         </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Phone_number</label>
           <input
             type="tel"
             name="phone"
-            value={formData.phone}
+            value={formData.phone_number}
             onChange={handleChange}
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
