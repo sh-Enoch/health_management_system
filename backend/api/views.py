@@ -1,7 +1,7 @@
 from ninja import NinjaAPI
 from django.db import models
 from .serializers import *
-from backend.core.models import Program, Client, Enrollment
+from core.models import Program, Client, Enrollment
 
 api = NinjaAPI(
     version='1.0.0',

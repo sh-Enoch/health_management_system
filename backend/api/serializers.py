@@ -1,7 +1,7 @@
 from ninja import ModelSchema, Schema
 from typing import List, Optional
 from datetime import date
-from backend.core.models import Program, Client, Enrollment
+from core.models import Program, Client, Enrollment
 
 class ProgramIn(Schema):
     name: str
