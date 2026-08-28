@@ -8,9 +8,13 @@ class ProgramIn(Schema):
     description: Optional[str] = None
 
 class ProgramOut(ModelSchema):
-    class Config:
+    class Meta:
         model = Program
-        model_fields = ['id', 'name', 'description', 'created_at', 'updated_at']
+        db_table = 'Program'
+        managed = True
+        verbose_name = 'ModelName'
+        verbose_name_plural = 'ModelNames'
+        fields = ['id', 'name', 'description', 'created_at', 'updated_at']
 
 class ClientIn(Schema):
     first_name: str
@@ -20,11 +24,19 @@ class ClientIn(Schema):
     phone_number: Optional[str] = None
 
 class ClientOut(ModelSchema):
-    class Config:
-        model = Client
-        model_fields = ['id', 'first_name', 'last_name', 'date_of_birth',
-                       'gender', 'phone_number', 'created_at', 'updated_at']
+    # class Config:
+    #     model = Client
+    #     model_fields = ['id', 'first_name', 'last_name', 'date_of_birth',
+    #                    'gender', 'phone_number', 'created_at', 'updated_at']
 
+    class Meta:
+        model = Client
+        db_table = 'Client'
+        managed = True
+        verbose_name = 'ModelName'
+        verbose_name_plural = 'ModelNames'
+        fields = ['id', 'first_name', 'last_name', 'date_of_birth','gender', 'phone_number', 'created_at', 'updated_at']
+        
 class EnrollmentProgram(Schema):
     id: int
     name: str
