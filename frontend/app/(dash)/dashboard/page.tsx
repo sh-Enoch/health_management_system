@@ -19,8 +19,6 @@ import {
   HeartPulse,
   Sparkles,
 } from "lucide-react";
-import Header from "@/app/components/UI/header";
-
 const statCards = [
   {
     label: "Heart rate",
@@ -60,8 +58,6 @@ function DashboardPage() {
   const { data } = useSWR("/api/v1/clients", fetcher);
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-6 md:px-6 lg:px-8">
-      <Header />
-
       <main className="mt-8 space-y-8">
         <section className="grid gap-6 lg:grid-cols-[1.4fr_0.8fr]">
           <div className="rounded-[30px] border border-emerald-100 bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 p-7 text-white shadow-[0_30px_60px_rgba(13,96,80,0.3)]">

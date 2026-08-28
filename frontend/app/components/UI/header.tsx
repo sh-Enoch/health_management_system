@@ -1,4 +1,5 @@
 import { Bell, Search, User2 } from "lucide-react";
+import Link from "next/link";
 
 function Header() {
   return (
@@ -17,9 +18,15 @@ function Header() {
 
       <div className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex">
         <button className="transition hover:text-emerald-700">Overview</button>
-        <button className="transition hover:text-emerald-700">Clients</button>
-        <button className="transition hover:text-emerald-700">Programs</button>
-        <button className="transition hover:text-emerald-700">Goals</button>
+        <Link className="transition hover:text-emerald-700" href="/clients">
+          Clients
+        </Link>
+        <Link className="transition hover:text-emerald-700" href="/programs">
+          Programs
+        </Link>
+        <Link className="transition hover:text-emerald-700" href="/goals">
+          Goals
+        </Link>
       </div>
 
       <div className="flex items-center gap-3">
