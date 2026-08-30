@@ -1,6 +1,7 @@
 from ninja import ModelSchema, Schema
-from typing import List, Optional
+from typing import List, Optional, Literal
 from datetime import date
+from pydantic import field_validator
 from core.models import Program, Client, Enrollment
 
 class ProgramIn(Schema):
@@ -24,10 +25,14 @@ class ClientIn(Schema):
     phone_number: Optional[str] = None
 
 class ClientOut(ModelSchema):
-    # class Config:
-    #     model = Client
-    #     model_fields = ['id', 'first_name', 'last_name', 'date_of_birth',
-    #                    'gender', 'phone_number', 'created_at', 'updated_at']
+    gender: str
+
+    @field_validator('gender', mode='before')
+    @classmethod
+    def normalize_gender(cls, v):
+        # Map display names to codes
+        mapping = {'male': 'M', 'Male': 'M', 'female': 'F', 'Female': 'F', 'other': 'O', 'Other': 'O'}
+        return mapping.get(v, v)
 
     class Meta:
         model = Client

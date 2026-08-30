@@ -4,3 +4,7 @@ import { proxyToBackend } from "@/app/utils/proxy";
 export function GET(req: NextRequest) {
   return proxyToBackend(req, "/v1/clients");
 }
+
+export function POST(req: NextRequest) {
+  return proxyToBackend(req, "/v1/clients/");
+}
