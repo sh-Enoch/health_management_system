@@ -1,4 +1,16 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import useSWR from "swr";
+
+type User = {
+  id: number;
+  first_name: string;
+  last_name: string;
+  date_of_birth: string;
+  gender: string;
+  phone_number: string;
+};
+
 import {
   Activity,
   ArrowUpRight,
@@ -7,8 +19,6 @@ import {
   HeartPulse,
   Sparkles,
 } from "lucide-react";
-import Header from "@/app/components/UI/header";
-
 const statCards = [
   {
     label: "Heart rate",
@@ -42,10 +52,12 @@ const appointments = [
 ];
 
 function DashboardPage() {
+  const fetcher = (url: string) =>
+    fetch(url).then((response) => response.json());
+
+  const { data } = useSWR("/api/v1/clients", fetcher);
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-6 md:px-6 lg:px-8">
-      <Header />
-
       <main className="mt-8 space-y-8">
         <section className="grid gap-6 lg:grid-cols-[1.4fr_0.8fr]">
           <div className="rounded-[30px] border border-emerald-100 bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 p-7 text-white shadow-[0_30px_60px_rgba(13,96,80,0.3)]">
@@ -97,6 +109,21 @@ function DashboardPage() {
               ))}
             </div>
           </div>
+        </section>
+
+        <section className="bg-black text-white">
+          {data &&
+            data.map((user: User) => (
+              <div key={user.id}>
+                <li>
+                  <strong>
+                    {user.first_name} {user.last_name}
+                  </strong>{" "}
+                  <span>{": "}</span>
+                  {user.phone_number}
+                </li>
+              </div>
+            ))}
         </section>
 
         <section className="grid gap-5 md:grid-cols-3">
