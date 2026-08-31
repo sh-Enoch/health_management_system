@@ -199,7 +199,7 @@ function ClientsPage() {
       )}
 
       <button
-        className="fixed bottom-12 right-12 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-white text-black shadow-lg transition hover:bg-emerald-50 hover:shadow-xl active:scale-95"
+        className="fixed bottom-12 right-12 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-green-950 text-white shadow-lg transition hover:bg-emerald-50 hover:shadow-xl active:scale-95"
         aria-label="Add new client"
         onClick={() => setIsOpen(true)}
       >
