@@ -1,17 +1,36 @@
 "use client";
 import React, { useState } from "react";
-import { PlusIcon, X } from "lucide-react";
+import { PlusIcon, X, LoaderIcon } from "lucide-react";
 import { useForm, SubmitHandler } from "react-hook-form";
-
-import useSwr from "swr";
+import { Program } from "@/app/utils/types/types";
+import useSWR, { mutate } from "swr";
 
 type FormData = {
   name: string;
   description: string;
 };
 
+const fetcher = async (url: string): Promise<Program[]> => {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Request failed: ${response.status}`);
+  }
+
+  const text = await response.text();
+  if (!text) return [];
+
+  const data = JSON.parse(text);
+  if (!Array.isArray(data)) {
+    throw new Error("Unexpected response format");
+  }
+
+  return data;
+};
+
 function ProgramsPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const {
     register,
@@ -25,19 +44,55 @@ function ProgramsPage() {
     },
   });
 
-  const fetcher = (url: string) => fetch(url).then((resp) => resp.json);
-  const { isLoading, isValidating, data } = useSwr("", fetcher);
+  const { data, error, isLoading } = useSWR<Program[]>(
+    "/api/v1/programs",
+    fetcher,
+  );
 
+  const onSubmit: SubmitHandler<FormData> = async (formData) => {
+    setSubmitError("");
 
-  
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log("Form submitted:", data);
+    try {
+      const response = await fetch("/api/v1/programs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text || "Something went wrong creating a program");
+      }
 
-    reset();
-    setIsOpen(false);
+      reset();
+      setIsOpen(false);
+      await mutate("/api/v1/programs");
+    } catch (submitFailure) {
+      setSubmitError(
+        submitFailure instanceof Error
+          ? submitFailure.message
+          : "Something went wrong creating a program",
+      );
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center p-12">
+        <LoaderIcon className="h-8 w-8 animate-spin text-emerald-600" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 text-center text-red-600">
+        Failed to load programs. Please try again.
+      </div>
+    );
+  }
 
   return (
     <>
@@ -48,6 +103,24 @@ function ProgramsPage() {
           </h1>
         </div>
       </div>
+
+      <div className="grid grid-cols-1 gap-4 p-6 md:grid-cols-2 lg:grid-cols-3">
+        {data?.map((program) => (
+          <div
+            key={program.id}
+            className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+          >
+            <h3 className="font-semibold text-slate-900">{program.name}</h3>
+            <p className="mt-1 text-sm text-slate-600">{program.description}</p>
+          </div>
+        ))}
+      </div>
+
+      {data?.length === 0 && (
+        <div className="py-12 text-center text-slate-500">
+          No programs yet. Click the + button to add one.
+        </div>
+      )}
 
       <button
         type="button"
@@ -71,6 +144,7 @@ function ProgramsPage() {
                 aria-label="Close add program form"
                 onClick={() => {
                   reset();
+                  setSubmitError("");
                   setIsOpen(false);
                 }}
               >
@@ -121,11 +195,18 @@ function ProgramsPage() {
                 )}
               </div>
 
+              {submitError && (
+                <p className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
+                  {submitError}
+                </p>
+              )}
+
               <div className="flex justify-end gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => {
                     reset();
+                    setSubmitError("");
                     setIsOpen(false);
                   }}
                   className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100"
