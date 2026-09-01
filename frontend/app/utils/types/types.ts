@@ -6,3 +6,10 @@ export type User = {
   gender: string;
   phone_number: string;
 };
+
+export type Program = {
+  id: number;
+  name: string;
+  description: string;
+  
+};
