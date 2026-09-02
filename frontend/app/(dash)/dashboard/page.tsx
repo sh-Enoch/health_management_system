@@ -52,10 +52,6 @@ const appointments = [
 ];
 
 function DashboardPage() {
-  const fetcher = (url: string) =>
-    fetch(url).then((response) => response.json());
-
-  const { data } = useSWR("/api/v1/clients", fetcher);
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-6 md:px-6 lg:px-8">
       <main className="mt-8 space-y-8">
@@ -109,21 +105,6 @@ function DashboardPage() {
               ))}
             </div>
           </div>
-        </section>
-
-        <section className="bg-black text-white">
-          {data &&
-            data.map((user: User) => (
-              <div key={user.id}>
-                <li>
-                  <strong>
-                    {user.first_name} {user.last_name}
-                  </strong>{" "}
-                  <span>{": "}</span>
-                  {user.phone_number}
-                </li>
-              </div>
-            ))}
         </section>
 
         <section className="grid gap-5 md:grid-cols-3">
