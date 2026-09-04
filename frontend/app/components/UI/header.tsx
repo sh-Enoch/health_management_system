@@ -27,6 +27,9 @@ function Header() {
         <Link className="transition hover:text-emerald-700" href="/goals">
           Goals
         </Link>
+        <Link className="transition hover:text-emerald-700" href="/enrollments">
+          Enrollments
+        </Link>
       </div>
 
       <div className="flex items-center gap-3">
