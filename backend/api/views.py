@@ -17,7 +17,7 @@ api = NinjaAPI(
     version='1.0.0',
     docs_url="/docs/",
     title='Health Information System API',
-    description='API for managing clients and health programs'
+    description='API for managing clients and health programs currently'
 )
 
 @api.post("/programs/", response=ProgramOut)
