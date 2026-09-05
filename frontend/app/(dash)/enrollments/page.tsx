@@ -8,6 +8,11 @@ function page() {
           Enrollments
         </h1>
       </div>
+      <div>
+        <p className="text-center text-gray-500">
+          This page is under construction. Please check back later for updates.
+        </p>
+      </div>
     </div>
   );
 }
