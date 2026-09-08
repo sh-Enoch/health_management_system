@@ -55,3 +55,5 @@ def client_detail(request, client_id: int):
 def create_enrollment(request, payload: EnrollmentIn):
     enrollment = Enrollment.objects.create(**payload.dict())
     return enrollment
+
+    
