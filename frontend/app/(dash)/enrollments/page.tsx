@@ -10,7 +10,7 @@ function page() {
       </div>
       <div>
         <p className="text-center text-gray-500">
-          This page is under construction. Please check back later for updates.
+          Thuis will be the enrollments
         </p>
       </div>
     </div>
