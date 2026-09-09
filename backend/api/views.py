@@ -1,3 +1,5 @@
+from cmath import pi
+
 from ninja import NinjaAPI
 from django.db import models
 from typing import List
@@ -56,4 +58,10 @@ def create_enrollment(request, payload: EnrollmentIn):
     enrollment = Enrollment.objects.create(**payload.dict())
     return enrollment
 
-    
+
+@pi.get("/enrollments/", response=List[ClientEnrollment])
+def list_enrollments(request, client_id: int = None):
+    qs = Enrollment.objects.all()
+    if client_id:
+        qs = qs.filter(client_id=client_id)
+    return qs
