@@ -27,6 +27,13 @@ def create_program(request, payload: ProgramIn):
     program = Program.objects.create(**payload.dict())
     return program
 
+@api.delete("/programs/{program_id}/")
+def delete_program(request, program_id: int):
+    program = Program.objects.get(id=program_id)
+    program.delete()
+    return {"success": True}
+
+
 @api.get("/programs/", response=List[ProgramOut])
 def list_programs(request, search: str = None):
     qs = Program.objects.all()
@@ -59,7 +66,7 @@ def create_enrollment(request, payload: EnrollmentIn):
     return enrollment
 
 
-@pi.get("/enrollments/", response=List[ClientEnrollment])
+@api.get("/enrollments/", response=List[ClientEnrollment])
 def list_enrollments(request, client_id: int = None):
     qs = Enrollment.objects.all()
     if client_id:
